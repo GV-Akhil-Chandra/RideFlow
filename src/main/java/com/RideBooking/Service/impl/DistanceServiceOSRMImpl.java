@@ -1,6 +1,7 @@
 package com.RideBooking.Service.impl;
 
 import com.RideBooking.Service.DistanceService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class DistanceServiceOSRMImpl implements DistanceService {
                     .build()
                     .get()
                     .uri(uri)
+                    .header("Accept-Encoding", "identity")
                     .retrieve()
                     .body(OSRMResponseDto.class);
 
@@ -33,11 +35,13 @@ public class DistanceServiceOSRMImpl implements DistanceService {
 }
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 class OSRMResponseDto {
     private List<OSRMRoute> routes;
 }
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 class OSRMRoute {
     private Double distance;
 }
